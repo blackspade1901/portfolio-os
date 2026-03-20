@@ -1,0 +1,1100 @@
+/* ── Reset ─────────────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body, #root {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+}
+
+/* ── Themes ─────────────────────────────────────────────────── */
+:root, [data-theme="dark"] {
+  --bg-desktop:    #1a1a2e;
+  --bg-window:     #1e1e2e;
+  --bg-titlebar:   #2a2a3e;
+  --bg-taskbar:    rgba(0, 0, 0, 0.6);
+  --bg-input:      rgba(255, 255, 255, 0.06);
+  --border-subtle: rgba(255, 255, 255, 0.08);
+  --border-mid:    rgba(255, 255, 255, 0.12);
+  --text-primary:  rgba(255, 255, 255, 0.9);
+  --text-muted:    rgba(255, 255, 255, 0.5);
+  --text-faint:    rgba(255, 255, 255, 0.25);
+  --accent:        #7c3aed;
+  --accent-hover:  #6d28d9;
+  --terminal-bg:   #0d0d0d;
+  --terminal-green:#00ff88;
+
+  /* extras we need below */
+  --text-title:         rgba(255, 255, 255, 0.85);
+  --skill-tag-bg:       rgba(255, 255, 255, 0.08);
+  --skill-tag-text:     rgba(255, 255, 255, 0.75);
+  --project-card-bg:    rgba(255, 255, 255, 0.05);
+  --project-desc-color: rgba(255, 255, 255, 0.55);
+  --project-tag-bg:     rgba(255, 255, 255, 0.07);
+  --project-tag-text:   rgba(255, 255, 255, 0.5);
+  --taskbar-btn-bg:     rgba(255, 255, 255, 0.07);
+  --taskbar-btn-hover:  rgba(255, 255, 255, 0.14);
+  --taskbar-border:     rgba(255, 255, 255, 0.1);
+  --terminal-line-bg:   rgba(255, 255, 255, 0.06);
+  --terminal-border:    rgba(255, 255, 255, 0.06);
+  --terminal-text:      rgba(255, 255, 255, 0.85);
+  --terminal-output-color: #a8d8a8;
+  --window-shadow:      rgba(0, 0, 0, 0.6);
+  --boot-bg:            #0a0a0f;
+}
+
+[data-theme="light"] {
+  --bg-desktop:    #e8eaf0;
+  --bg-window:     #ffffff;
+  --bg-titlebar:   #f0f0f5;
+  --bg-taskbar:    rgba(220, 220, 230, 0.85);
+  --bg-input:      rgba(0, 0, 0, 0.04);
+  --border-subtle: rgba(0, 0, 0, 0.06);
+  --border-mid:    rgba(0, 0, 0, 0.12);
+  --text-primary:  rgba(0, 0, 0, 0.88);
+  --text-muted:    rgba(0, 0, 0, 0.5);
+  --text-faint:    rgba(0, 0, 0, 0.25);
+  --accent:        #7c3aed;
+  --accent-hover:  #6d28d9;
+  --terminal-bg:   #1a1a1a;
+  --terminal-green:#00cc66;
+
+  --text-title:         rgba(0, 0, 0, 0.85);
+  --skill-tag-bg:       rgba(0, 0, 0, 0.06);
+  --skill-tag-text:     rgba(0, 0, 0, 0.7);
+  --project-card-bg:    rgba(0, 0, 0, 0.03);
+  --project-desc-color: rgba(0, 0, 0, 0.5);
+  --project-tag-bg:     rgba(0, 0, 0, 0.05);
+  --project-tag-text:   rgba(0, 0, 0, 0.45);
+  --taskbar-btn-bg:     rgba(0, 0, 0, 0.07);
+  --taskbar-btn-hover:  rgba(0, 0, 0, 0.12);
+  --taskbar-border:     rgba(0, 0, 0, 0.1);
+  --terminal-line-bg:   rgba(0, 0, 0, 0.04);
+  --terminal-border:    rgba(0, 0, 0, 0.08);
+  --terminal-text:      rgba(0, 0, 0, 0.85);
+  --terminal-output-color: #2d7a4f;
+  --window-shadow:      rgba(0, 0, 0, 0.15);
+  --boot-bg:            #0a0a0f;
+}
+
+/* ── OS Shell ───────────────────────────────────────────────── */
+.os-shell {
+  width: 100vw;
+  height: 100vh;
+  background: var(--bg-desktop);
+  position: relative;
+  transition: background 0.3s ease;
+}
+
+/* ── Desktop ────────────────────────────────────────────────── */
+.desktop {
+  width: 100%;
+  height: calc(100vh - 48px);
+  position: relative;
+}
+
+.desktop-icons {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 20px;
+  width: fit-content;
+}
+
+.desktop-icon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 8px;
+  width: 80px;
+  transition: background 0.15s;
+}
+
+.desktop-icon:hover {
+  background: var(--bg-input);
+}
+
+.desktop-icon__emoji {
+  font-size: 32px;
+}
+
+.desktop-icon__label {
+  font-size: 12px;
+  color: var(--text-primary);
+  text-align: center;
+  text-shadow: 0 1px 3px var(--window-shadow);
+}
+
+/* ── Taskbar ────────────────────────────────────────────────── */
+.taskbar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 48px;
+  background: var(--bg-taskbar);
+  backdrop-filter: blur(12px);
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  z-index: 9999;
+}
+
+.taskbar-brand {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-primary);
+  white-space: nowrap;
+}
+
+.taskbar-windows {
+  display: flex;
+  gap: 6px;
+  flex: 1;
+  margin: 0 16px;
+  overflow-x: auto;
+}
+
+.taskbar-app-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  border-radius: 6px;
+  border: 1px solid var(--taskbar-border);
+  background: var(--taskbar-btn-bg);
+  color: var(--text-primary);
+  font-size: 12px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.15s;
+}
+
+.taskbar-app-btn:hover { background: var(--taskbar-btn-hover); }
+.taskbar-app-btn.minimized { opacity: 0.5; }
+
+.taskbar-clock {
+  font-size: 13px;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+.theme-toggle {
+  background: none;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 6px;
+  transition: background 0.15s;
+  margin-right: 8px;
+}
+
+.theme-toggle:hover {
+  background: var(--bg-input);
+}
+
+/* ── Window ─────────────────────────────────────────────────── */
+.window {
+  background: var(--bg-window);
+  border: 1px solid var(--border-mid);
+  border-radius: 10px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 24px 60px var(--window-shadow);
+  min-width: 300px;
+  min-height: 200px;
+}
+
+.window-titlebar {
+  height: 40px;
+  background: var(--bg-titlebar);
+  display: flex;
+  align-items: center;
+  padding: 0 12px;
+  gap: 8px;
+  flex-shrink: 0;
+  user-select: none;
+  cursor: grab;
+}
+
+.window-titlebar:active {
+  cursor: grabbing;
+}
+
+.window-title {
+  flex: 1;
+  font-size: 13px;
+  color: var(--text-title);
+  font-weight: 500;
+}
+
+.window-controls {
+  display: flex;
+  gap: 2px;
+}
+
+.window-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  background: transparent;
+  color: var(--text-faint);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.12s, color 0.12s;
+  flex-shrink: 0;
+}
+
+/* These stay hardcoded — they are intentional macOS-style
+   traffic light colors, not theme colors */
+.window-btn.close    { background: #ff5f57; }
+.window-btn.minimize { background: #febc2e; }
+.window-btn.maximize { background: #28c840; }
+
+.window-body {
+  flex: 1;
+  overflow: auto;
+  background: var(--bg-window);
+}
+
+.window-btn svg {
+  width: 14px;
+  height: 14px;
+}
+
+.window-btn:hover {
+  color: var(--text-primary);
+  background: var(--bg-input);
+}
+
+.window-btn.close:hover {
+  background: #c42b1c;
+  color: white;
+}
+
+.app-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: var(--text-faint);
+  font-size: 13px;
+}
+
+/* ── About App ──────────────────────────────────────────────── */
+.app-about {
+  padding: 24px;
+  height: 100%;
+  overflow-y: auto;
+  color: var(--text-primary);
+}
+
+.about-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.about-avatar {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #7c3aed, #0891b2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  font-weight: 600;
+  color: white;           /* avatar text always white regardless of theme */
+  flex-shrink: 0;
+}
+
+.about-name {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 4px;
+}
+
+.about-tagline {
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.about-bio {
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--text-muted);
+  margin-bottom: 20px;
+}
+
+.skill-group { margin-bottom: 12px; }
+
+.skill-category {
+  font-size: 11px;
+  color: var(--text-faint);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  display: block;
+  margin-bottom: 6px;
+}
+
+.skill-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+
+.skill-tag {
+  font-size: 12px;
+  padding: 3px 10px;
+  border-radius: 20px;
+  background: var(--skill-tag-bg);
+  color: var(--skill-tag-text);
+}/* ── About App (redesigned) ────────────────────────────────── */
+.about-os {
+  height: 100%;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  color: var(--text-primary);
+  font-family: 'Segoe UI', system-ui, sans-serif;
+}
+
+/* Hero */
+.about-hero {
+  position: relative;
+  padding: 28px 24px 20px;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.about-hero-bg {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, #7c3aed22 0%, #0891b215 50%, transparent 100%);
+  pointer-events: none;
+}
+
+.about-avatar-ring {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  padding: 2px;
+  background: linear-gradient(135deg, #7c3aed, #0891b2);
+  flex-shrink: 0;
+  position: relative;
+  z-index: 1;
+}
+
+.about-avatar-lg {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: var(--bg-window);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: 0.02em;
+}
+
+.about-hero-text {
+  position: relative;
+  z-index: 1;
+}
+
+.about-hero-name {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 3px;
+  letter-spacing: -0.01em;
+}
+
+.about-hero-role {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-bottom: 3px;
+}
+
+.about-hero-loc {
+  font-size: 12px;
+  color: var(--text-faint);
+}
+
+/* Body */
+.about-body {
+  padding: 0 24px 24px;
+  flex: 1;
+}
+
+.about-os-bio {
+  font-size: 13.5px;
+  line-height: 1.75;
+  color: var(--text-muted);
+  margin-bottom: 16px;
+}
+
+/* Contact chips */
+.about-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin-bottom: 4px;
+}
+
+.about-chip {
+  font-size: 12px;
+  padding: 5px 12px;
+  border-radius: 20px;
+  border: 1px solid var(--border-subtle);
+  background: var(--bg-input);
+  color: var(--text-muted);
+  text-decoration: none;
+  transition: all 0.15s;
+  white-space: nowrap;
+}
+
+.about-chip:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: var(--bg-window);
+}
+
+.about-os-divider {
+  height: 1px;
+  background: var(--border-subtle);
+  margin: 18px 0;
+}
+
+/* Section header */
+.about-os-section { margin-bottom: 4px; }
+
+.about-os-section-header {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin-bottom: 12px;
+}
+
+.about-os-section-icon { font-size: 14px; }
+
+.about-os-section-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-primary);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+/* Skills grid */
+.about-skills-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.about-skill-block {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.about-skill-category {
+  font-size: 11px;
+  color: var(--text-faint);
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+}
+
+.about-skill-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.about-skill-pill {
+  font-size: 11.5px;
+  padding: 3px 10px;
+  border-radius: 20px;
+  background: var(--bg-input);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-muted);
+  transition: border-color 0.15s, color 0.15s;
+}
+
+.about-skill-pill:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+/* Education timeline */
+.about-edu-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.about-edu-item {
+  display: flex;
+  gap: 12px;
+}
+
+.about-edu-left {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 16px;
+  flex-shrink: 0;
+  padding-top: 4px;
+}
+
+.about-edu-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+  flex-shrink: 0;
+}
+
+.about-edu-line {
+  width: 2px;
+  flex: 1;
+  background: var(--border-subtle);
+  margin: 4px 0;
+  min-height: 16px;
+}
+
+.about-edu-content {
+  padding-bottom: 14px;
+  flex: 1;
+}
+
+.about-edu-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 2px;
+}
+
+.about-edu-degree {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.about-edu-badge {
+  font-size: 10px;
+  padding: 1px 7px;
+  border-radius: 20px;
+  background: var(--accent);
+  color: white;
+  font-weight: 500;
+}
+
+.about-edu-period {
+  font-size: 11px;
+  color: var(--text-faint);
+}
+
+.about-edu-institute {
+  font-size: 12px;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+/* Workshops */
+.about-workshop-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.about-workshop-card {
+  padding: 12px 14px;
+  border-radius: 8px;
+  background: var(--bg-input);
+  border: 1px solid var(--border-subtle);
+}
+
+.about-workshop-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 2px;
+}
+
+.about-workshop-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.about-workshop-duration {
+  font-size: 11px;
+  color: var(--text-faint);
+  background: var(--bg-window);
+  padding: 1px 8px;
+  border-radius: 20px;
+  border: 1px solid var(--border-subtle);
+}
+
+.about-workshop-by {
+  font-size: 11px;
+  color: var(--accent);
+  display: block;
+  margin-bottom: 5px;
+}
+
+.about-workshop-desc {
+  font-size: 12px;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+/* Hobbies */
+.about-hobbies {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.about-hobby-chip {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 14px;
+  border-radius: 10px;
+  background: var(--bg-input);
+  border: 1px solid var(--border-subtle);
+  font-size: 13px;
+  color: var(--text-muted);
+  transition: all 0.15s;
+}
+
+.about-hobby-chip:hover {
+  border-color: var(--accent);
+  color: var(--text-primary);
+  background: var(--bg-window);
+}
+
+/* ── Projects App ───────────────────────────────────────────── */
+.app-projects {
+  padding: 20px;
+  height: 100%;
+  overflow-y: auto;
+}
+
+.projects-subtitle {
+  font-size: 12px;
+  color: var(--text-faint);
+  margin-bottom: 16px;
+}
+
+.projects-grid { display: flex; flex-direction: column; gap: 12px; }
+
+.project-card {
+  background: var(--project-card-bg);
+  border: 1px solid var(--border-subtle);
+  border-radius: 10px;
+  overflow: hidden;
+  transition: border-color 0.15s;
+}
+
+.project-card:hover { border-color: var(--border-mid); }
+.project-card-bar { height: 3px; }
+.project-card-body { padding: 14px 16px; }
+
+.project-name {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--text-primary);
+  margin-bottom: 6px;
+}
+
+.project-desc {
+  font-size: 13px;
+  color: var(--project-desc-color);
+  line-height: 1.6;
+  margin-bottom: 10px;
+}
+
+.project-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 10px; }
+
+.project-tag {
+  font-size: 11px;
+  padding: 2px 8px;
+  border-radius: 4px;
+  background: var(--project-tag-bg);
+  color: var(--project-tag-text);
+}
+
+.project-link {
+  font-size: 12px;
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.project-link:hover { text-decoration: underline; }
+
+/* ── Resume App ─────────────────────────────────────────────── */
+.app-resume {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.resume-actions {
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--border-subtle);
+  flex-shrink: 0;
+}
+
+.resume-download-btn {
+  font-size: 13px;
+  color: white;
+  background: var(--accent);
+  padding: 6px 14px;
+  border-radius: 6px;
+  text-decoration: none;
+  display: inline-block;
+  transition: background 0.15s;
+}
+
+.resume-download-btn:hover {
+  background: var(--accent-hover);
+}
+
+.resume-iframe {
+  flex: 1;
+  border: none;
+  width: 100%;
+}
+
+/* ── Contact App ────────────────────────────────────────────── */
+.app-contact {
+  padding: 24px;
+  height: 100%;
+  overflow-y: auto;
+}
+
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.contact-form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form-field label {
+  font-size: 12px;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.form-required { color: var(--accent); font-size: 12px; }
+.form-optional { color: var(--text-faint); font-size: 11px; }
+
+.form-field input,
+.form-field textarea {
+  background: var(--bg-input);
+  border: 1px solid var(--border-subtle);
+  border-radius: 8px;
+  padding: 9px 12px;
+  color: var(--text-primary);
+  font-size: 13px;
+  font-family: inherit;
+  resize: vertical;
+  outline: none;
+  transition: border-color 0.15s, background 0.15s;
+}
+
+.form-field input:focus,
+.form-field textarea:focus {
+  border-color: var(--accent);
+  background: var(--bg-window);
+}
+
+.form-field input:disabled,
+.form-field textarea:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.contact-submit {
+  background: var(--accent);
+  color: white;
+  border: none;
+  padding: 11px 22px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s, opacity 0.15s;
+  align-self: flex-start;
+  font-family: inherit;
+}
+
+.contact-submit:hover:not(:disabled) { background: var(--accent-hover); }
+.contact-submit:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.contact-spinner-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.contact-spinner {
+  width: 13px;
+  height: 13px;
+  border: 2px solid rgba(255,255,255,0.3);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  flex-shrink: 0;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.contact-error {
+  font-size: 12px;
+  color: #ff6b6b;
+  background: rgba(255, 107, 107, 0.08);
+  border: 1px solid rgba(255, 107, 107, 0.2);
+  border-radius: 8px;
+  padding: 10px 14px;
+  line-height: 1.6;
+}
+
+.contact-error a {
+  color: #ff6b6b;
+  text-decoration: underline;
+}
+
+/* Sent state */
+.contact-sent {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.contact-sent-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  text-align: center;
+  padding: 24px;
+}
+
+.contact-sent-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: rgba(0, 255, 136, 0.1);
+  border: 2px solid var(--terminal-green);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  color: var(--terminal-green);
+  font-weight: 700;
+}
+
+.contact-sent-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.contact-sent-sub {
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.contact-reset-btn {
+  margin-top: 8px;
+  background: none;
+  border: 1px solid var(--border-subtle);
+  border-radius: 8px;
+  padding: 8px 16px;
+  font-size: 12px;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-family: inherit;
+  transition: border-color 0.15s, color 0.15s;
+}
+
+.contact-reset-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+/* ── Terminal ───────────────────────────────────────────────── */
+.terminal {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: var(--terminal-bg);
+  font-family: 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
+  font-size: 13px;
+  cursor: text;
+}
+
+.terminal-output {
+  flex: 1;
+  overflow-y: auto;
+  padding: 12px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.terminal-line {
+  margin: 0;
+  white-space: pre-wrap;
+  word-break: break-word;
+  line-height: 1.6;
+}
+
+.terminal-input   { color: var(--terminal-text); }
+.terminal-output  { color: var(--terminal-output-color); }
+.terminal-error   { color: #ff6b6b; }   /* errors are always red */
+.terminal-success { color: var(--terminal-green); }
+
+.terminal-input-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border-top: 1px solid var(--terminal-border);
+  flex-shrink: 0;
+}
+
+.terminal-prompt {
+  color: var(--terminal-green);
+  font-weight: bold;
+  flex-shrink: 0;
+}
+
+.terminal-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--terminal-text);
+  font-family: inherit;
+  font-size: inherit;
+  caret-color: var(--terminal-green);
+}
+
+/* ── Boot Screen ────────────────────────────────────────────── */
+.boot-screen {
+  position: fixed;
+  inset: 0;
+  background: var(--boot-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 99999;
+}
+
+.boot-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  width: 280px;
+}
+
+.boot-logo { font-size: 48px; margin-bottom: 8px; }
+
+.boot-title {
+  font-size: 24px;
+  font-weight: 600;
+  color: white;
+  letter-spacing: 0.05em;
+}
+
+.boot-version {
+  font-size: 12px;
+  color: rgba(255,255,255,0.35);
+  margin-bottom: 16px;
+}
+
+.boot-progress-bar {
+  width: 100%;
+  height: 3px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.boot-progress-fill {
+  height: 100%;
+  background: var(--accent);
+  border-radius: 2px;
+}
+
+.boot-status {
+  font-size: 12px;
+  color: rgba(255,255,255,0.4);
+  font-family: 'Consolas', monospace;
+  height: 16px;
+}
+
+/* ── Resize handles ─────────────────────────────────────────── */
+.resize-handle {
+  position: absolute;
+  z-index: 10;
+}
+
+/* Edge handles */
+.resize-n  { top: 0;    left: 6px;  right: 6px;  height: 4px; cursor: n-resize;  }
+.resize-s  { bottom: 0; left: 6px;  right: 6px;  height: 4px; cursor: s-resize;  }
+.resize-e  { right: 0;  top: 6px;   bottom: 6px; width: 4px;  cursor: e-resize;  }
+.resize-w  { left: 0;   top: 6px;   bottom: 6px; width: 4px;  cursor: w-resize;  }
+
+/* Corner handles — slightly larger for easy grabbing */
+.resize-ne { top: 0;    right: 0;   width: 10px; height: 10px; cursor: ne-resize; }
+.resize-nw { top: 0;    left: 0;    width: 10px; height: 10px; cursor: nw-resize; }
+.resize-se { bottom: 0; right: 0;   width: 10px; height: 10px; cursor: se-resize; }
+.resize-sw { bottom: 0; left: 0;    width: 10px; height: 10px; cursor: sw-resize; }
