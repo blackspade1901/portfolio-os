@@ -2,18 +2,14 @@ function ResumeApp() {
   return (
     <div className="app-resume">
       <div className="resume-actions">
-        
-          <a href="/profile.html"
-          target="_blank"
-          rel="noreferrer"
-          className="resume-download-btn"
-        >
-          ↗ Open in new tab
+
+        <a href="/Saloni_Karapurkar_Resume.pdf" download className="resume-download-btn">
+          ⬇ Download Resume
         </a>
       </div>
 
       <iframe
-        src="/profile.html"
+        src="/Saloni_Karapurkar_Resume.pdf"
         className="resume-iframe"
         title="Resume"
       />
