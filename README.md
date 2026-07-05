@@ -20,12 +20,12 @@
 ## ✨ Features
 
 ### Window Manager
-- Drag windows by their title bar
-- Resize from any edge or corner (all 8 directions)
-- Click to focus — correct z-index stacking
-- Minimize, maximize (fullscreen), and close
-- Windows constrained to viewport — can't drag off screen
-- Smooth open/close animations via Framer Motion
+- 🖱️ Drag windows by their title bar
+- 📐 Resize from any edge or corner (all 8 directions)
+- 🎯 Click to focus — correct z-index stacking
+- ⊠ Minimize, maximize (fullscreen), and close
+- 🔒 Windows constrained to viewport — can't drag off screen
+- ✨ Smooth open/close animations via Framer Motion
 
 ### Apps
 | App | Description |
@@ -51,11 +51,11 @@ $ secret        # 👀
 ```
 
 ### OS Features
-- Boot screen with animated progress bar on first load
-- Dark / light theme toggle with CSS custom properties
-- Taskbar with live clock and open app management
-- Plugin-based app registry — adding a new app = adding one data entry
-- Persistent window state via Zustand
+- 🚀 Boot screen with animated progress bar on first load
+- 🌓 Dark / light theme toggle with CSS custom properties
+- 📋 Taskbar with live clock and open app management
+- 🔌 Plugin-based app registry — adding a new app = adding one data entry
+- 💾 Persistent window state via Zustand
 
 ---
 
@@ -87,15 +87,15 @@ src/
 
 ### Key Design Decisions
 
-**Plugin Architecture** — `APP_REGISTRY` is a plain data object mapping app IDs to their component, icon, title, and default size. `Window.tsx` dynamically renders whatever component the registry points to. Adding a new app requires zero changes to core files.
+**Plugin Architecture** — `APP_REGISTRY` is a plain data object mapping app IDs to their component, icon, title, and default size. `Window.tsx` dynamically renders whatever component the registry provides. Adding a new app requires no changes to the window manager — just add a registry entry. This decoupling keeps the OS shell small and focused.
 
-**Immutable State** — every Zustand action returns new objects (`{ ...w, property: value }`) instead of mutating. React detects changes by reference — mutation would break re-renders silently.
+**Immutable State** — every Zustand action returns new objects (`{ ...w, property: value }`) instead of mutating. React detects changes by reference — mutation would break re-renders silently. This is especially critical for the window array, where each window is an independent object.
 
-**Global Mouse Events for Drag/Resize** — drag and resize listeners attach to `window` (not the element) so fast mouse movement doesn't escape the handler. Cursor is locked on `document.body` during drag to prevent flickering.
+**Global Mouse Events for Drag/Resize** — drag and resize listeners attach to `window` (not the element) so fast mouse movement doesn't escape the handler. Cursor is locked on `document.body` during drag so the OS feels snappy. Listeners are cleaned up on `mouseup`.
 
-**Ref for Drag State** — drag state is stored in a `useRef` instead of `useState` because `setState` is async and batched. During rapid `mousemove` events, stale state would cause jitter. A ref always gives the latest value synchronously.
+**Ref for Drag State** — drag state is stored in a `useRef` instead of `useState` because `setState` is async and batched. During rapid `mousemove` events, stale state would cause jitter. A ref is always current, so calculations stay synchronized with the mouse.
 
-**Lazy Loading** — all app components are loaded via React's `lazy()` so the initial bundle only contains the OS shell. App code downloads on first open.
+**Lazy Loading** — all app components are loaded via React's `lazy()` so the initial bundle only contains the OS shell. App code downloads on first open. The boot screen time is reused to preload the contact form (the most interactive app).
 
 ---
 
@@ -111,6 +111,12 @@ src/
 | Styling | CSS custom properties (no UI library) |
 | Email | EmailJS |
 | Deploy | Vercel |
+
+### Language Composition
+- **TypeScript** — 57%
+- **CSS** — 37.8%
+- **HTML** — 4.8%
+- **JavaScript** — 0.4%
 
 ---
 
@@ -191,7 +197,7 @@ Want to use this as your own portfolio? Here's what to change:
 
 ## 🗺️ Roadmap
 
-- [ ] Right-click context menu on desktop
+- [x] Right-click context menu on desktop
 - [ ] Window snapping to screen edges
 - [ ] Mobile-friendly fallback view
 - [ ] Settings app — wallpaper picker, accent color
@@ -202,7 +208,7 @@ Want to use this as your own portfolio? Here's what to change:
 
 ## 👩‍💻 Author
 
-**Saloni Karapurkar**
+**Saloni Karapurkar**  
 MCA Student · Android & Web Developer · Goa, India
 
 - GitHub: [@blackspade1901](https://github.com/blackspade1901)
