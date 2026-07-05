@@ -13,7 +13,7 @@
 
 ## 🌐 Live Demo
 
-**[https://portfolio-os.vercel.app](https://saloni-karapurkar-etsqjz5wa-blackspade1901s-projects.vercel.app/)** ← try it here
+**[https://saloni-karapurkar.vercel.app/](https://saloni-karapurkar.vercel.app/)** ← try it here
 
 ---
 
