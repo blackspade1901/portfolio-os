@@ -2,7 +2,6 @@ import { create } from 'zustand'
 import type { WindowState } from '../types'
 import { APP_REGISTRY } from '../registry/appRegistry'
 
-// This is the shape of our entire store
 interface OSStore {
     windows: WindowState[]
     maxZIndex: number
@@ -20,7 +19,7 @@ interface OSStore {
 
 export const useOSStore = create<OSStore>((set, get) => ({
     windows: [],
-    maxZIndex: 10,
+    maxZIndex: 100,
 
     openWindow: (appId) => {
         const app = APP_REGISTRY[appId]
@@ -28,21 +27,19 @@ export const useOSStore = create<OSStore>((set, get) => ({
 
         const { maxZIndex, windows } = get()
 
-        // If window for this app is already open and minimized, just restore it
-        const existing = windows.find(w => w.appId === appId && w.minimized)
+        const existing = windows.find(w => w.appId === appId)
         if (existing) {
             set(state => ({
                 windows: state.windows.map(w =>
                     w.id === existing.id
                         ? { ...w, minimized: false, zIndex: maxZIndex + 1 }
-                        : w
+                        : w,
                 ),
-                maxZIndex: maxZIndex + 1
+                maxZIndex: maxZIndex + 1,
             }))
             return
         }
 
-        // Slight offset so stacked windows don't perfectly overlap
         const offset = windows.length * 24
 
         const newWindow: WindowState = {
@@ -70,7 +67,7 @@ export const useOSStore = create<OSStore>((set, get) => ({
 
     closeWindow: (id) => {
         set(state => ({
-            windows: state.windows.filter(w => w.id !== id)
+            windows: state.windows.filter(w => w.id !== id),
         }))
     },
 
@@ -78,7 +75,7 @@ export const useOSStore = create<OSStore>((set, get) => ({
         const { maxZIndex } = get()
         set(state => ({
             windows: state.windows.map(w =>
-                w.id === id ? { ...w, zIndex: maxZIndex + 1 } : w
+                w.id === id ? { ...w, zIndex: maxZIndex + 1 } : w,
             ),
             maxZIndex: maxZIndex + 1,
         }))
@@ -87,32 +84,30 @@ export const useOSStore = create<OSStore>((set, get) => ({
     minimizeWindow: (id) => {
         set(state => ({
             windows: state.windows.map(w =>
-                w.id === id ? { ...w, minimized: true } : w
-            )
+                w.id === id ? { ...w, minimized: true } : w,
+            ),
         }))
     },
 
     maximizeWindow: (id) => {
         set(state => ({
             windows: state.windows.map(w =>
-                w.id === id ? { ...w, maximized: !w.maximized } : w
-            )
+                w.id === id ? { ...w, maximized: !w.maximized } : w,
+            ),
         }))
     },
 
     moveWindow: (id, x, y) => {
-        // Get viewport dimensions
-        const maxX = window.innerWidth - 200   // keep at least 200px visible horizontally
-        const maxY = window.innerHeight - 88   // keep above taskbar (48px) + some titlebar
+        const maxX = window.innerWidth - 200
+        const maxY = window.innerHeight - 88
 
-        // Clamp position within safe bounds
         const safeX = Math.max(0, Math.min(x, maxX))
         const safeY = Math.max(0, Math.min(y, maxY))
 
         set(state => ({
             windows: state.windows.map(w =>
-                w.id === id ? { ...w, position: { x: safeX, y: safeY } } : w
-            )
+                w.id === id ? { ...w, position: { x: safeX, y: safeY } } : w,
+            ),
         }))
     },
 
@@ -134,7 +129,7 @@ export const useOSStore = create<OSStore>((set, get) => ({
                             height: Math.max(MIN_H, Math.round(height)),
                         },
                     }
-                    : w
+                    : w,
             ),
         }))
     },
@@ -144,7 +139,6 @@ export const useOSStore = create<OSStore>((set, get) => ({
     toggleTheme: () => {
         set(state => {
             const next = state.theme === 'dark' ? 'light' : 'dark'
-            // Apply to the DOM immediately
             document.documentElement.setAttribute('data-theme', next)
             return { theme: next }
         })

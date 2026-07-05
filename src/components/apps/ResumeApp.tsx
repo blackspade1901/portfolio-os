@@ -1,8 +1,10 @@
+/**
+ * Resume application displaying and allowing download of the portfolio owner's resume.
+ */
 function ResumeApp() {
   return (
     <div className="app-resume">
       <div className="resume-actions">
-
         <a href="/Saloni_Karapurkar_Resume.pdf" download className="resume-download-btn">
           ⬇ Download Resume
         </a>

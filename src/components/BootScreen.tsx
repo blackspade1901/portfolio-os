@@ -1,22 +1,25 @@
-import { motion, AnimatePresence } from 'framer-motion'
-import { useState, useEffect } from 'react'
+import { AnimatePresence, motion } from 'framer-motion'
+import { useEffect, useState } from 'react'
 
 interface BootScreenProps {
   onComplete: () => void
 }
 
+/**
+ * Initial boot sequence animation displayed before the desktop loads.
+ */
 function BootScreen({ onComplete }: BootScreenProps) {
   const [stage, setStage] = useState<'loading' | 'done'>('loading')
   const [progress, setProgress] = useState(0)
-  const [statusText, setStatusText] = useState('Initializing...')
+  const [statusText, setStatusText] = useState('Warming up tiny galaxies...')
 
   const bootMessages = [
-    'Initializing kernel...',
-    'Loading components...',
-    'Mounting file system...',
+    'Warming up tiny galaxies...',
+    'Loading project memories...',
+    'Mounting screenshot vault...',
     'Starting window manager...',
-    'Loading portfolio data...',
-    'Welcome.',
+    'Teaching pixels to behave...',
+    'Welcome to Saloni OS.',
   ]
 
   useEffect(() => {
@@ -30,16 +33,15 @@ function BootScreen({ onComplete }: BootScreenProps) {
 
       if (pct >= 100) {
         clearInterval(interval)
-        // Short pause at 100% then transition
         setTimeout(() => {
           setStage('done')
-          setTimeout(onComplete, 600)  // wait for fade out
+          setTimeout(onComplete, 600)
         }, 400)
       }
     }, 300)
 
     return () => clearInterval(interval)
-  }, [])
+  }, [onComplete])
 
   return (
     <AnimatePresence>
@@ -50,9 +52,15 @@ function BootScreen({ onComplete }: BootScreenProps) {
           transition={{ duration: 0.6 }}
         >
           <div className="boot-content">
-            <div className="boot-logo">🖥️</div>
-            <h1 className="boot-title">PortfolioOS</h1>
-            <p className="boot-version">v1.0 — by Saloni Karapurkar</p>
+            <motion.div
+              className="boot-logo"
+              animate={{ rotate: [0, 12, -12, 0], scale: [1, 1.08, 1] }}
+              transition={{ duration: 2, repeat: Infinity }}
+            >
+              ✦
+            </motion.div>
+            <h1 className="boot-title">Saloni OS</h1>
+            <p className="boot-version">creative developer workspace</p>
 
             <div className="boot-progress-bar">
               <motion.div

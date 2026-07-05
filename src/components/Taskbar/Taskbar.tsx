@@ -1,10 +1,13 @@
-import { useOSStore } from '../../store/osStore'
+import { useEffect, useState } from 'react'
+import AppIcon from '../icons/AppIcon'
 import { APP_REGISTRY } from '../../registry/appRegistry'
-import { useState, useEffect } from 'react'
+import { useOSStore } from '../../store/osStore'
+import StartMenu from '../StartMenu/StartMenu'
 
 function Taskbar() {
   const { windows, openWindow, focusWindow, theme, toggleTheme } = useOSStore()
   const [time, setTime] = useState(new Date())
+  const [startOpen, setStartOpen] = useState(false)
 
   useEffect(() => {
     const timer = setInterval(() => setTime(new Date()), 1000)
@@ -20,31 +23,45 @@ function Taskbar() {
   }
 
   return (
-    <div className="taskbar">
-      <span className="taskbar-brand">🖥️ PortfolioOS</span>
+    <>
+      <StartMenu open={startOpen} onClose={() => setStartOpen(false)} />
 
-      <div className="taskbar-windows">
-        {windows.map(win => (
-          <button
-            key={win.id}
-            className={`taskbar-app-btn ${win.minimized ? 'minimized' : ''}`}
-            onClick={() => handleTaskbarClick(win)}
-          >
-            <span>{APP_REGISTRY[win.appId]?.icon}</span>
-            <span>{win.title}</span>
-          </button>
-        ))}
+      <div className="taskbar">
+        <button
+          type="button"
+          className={`taskbar-brand taskbar-start ${startOpen ? 'active' : ''}`}
+          onClick={() => setStartOpen(prev => !prev)}
+        >
+          <AppIcon id="logo" size={16} className="taskbar-logo-icon" />
+          Saloni OS
+        </button>
+
+        <div className="taskbar-windows">
+          {windows.map(win => {
+            const app = APP_REGISTRY[win.appId]
+            return (
+              <button
+                key={win.id}
+                type="button"
+                className={`taskbar-app-btn ${win.minimized ? 'minimized' : ''}`}
+                onClick={() => handleTaskbarClick(win)}
+              >
+                {app && <AppIcon id={app.icon} size={14} />}
+                <span>{win.title}</span>
+              </button>
+            )
+          })}
+        </div>
+
+        <button type="button" className="theme-toggle" onClick={toggleTheme} title="Toggle theme">
+          <AppIcon id={theme === 'dark' ? 'sun' : 'moon'} size={16} />
+        </button>
+
+        <span className="taskbar-clock">
+          {time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+        </span>
       </div>
-
-      {/* Theme toggle */}
-      <button className="theme-toggle" onClick={toggleTheme} title="Toggle theme">
-        {theme === 'dark' ? '☀️' : '🌙'}
-      </button>
-
-      <span className="taskbar-clock">
-        {time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-      </span>
-    </div>
+    </>
   )
 }
 

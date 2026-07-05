@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import emailjs from '@emailjs/browser'
 
-// 🔴 Replace these three values with yours from EmailJS dashboard
+// EmailJS configuration
 const EMAILJS_SERVICE_ID  = 'service_va6933d'
 const EMAILJS_TEMPLATE_ID = 'template_v6x542n'
 const EMAILJS_PUBLIC_KEY  = 'dh3Nkum01cuZJ8Hul'
@@ -15,8 +15,10 @@ type FormState = {
 
 type Status = 'idle' | 'sending' | 'sent' | 'error'
 
+/**
+ * Contact form application using EmailJS for message delivery.
+ */
 function ContactApp() {
-
   const [form, setForm] = useState<FormState>({
     from_name:  '',
     from_email: '',
@@ -33,7 +35,6 @@ function ContactApp() {
   }
 
   async function handleSubmit() {
-    // Basic validation
     if (!form.from_name.trim() || !form.from_email.trim() || !form.message.trim()) {
       return
     }
@@ -62,7 +63,6 @@ function ContactApp() {
     }
   }
 
-  // ── Sent state ──
   if (status === 'sent') {
     return (
       <div className="contact-sent">
@@ -81,12 +81,9 @@ function ContactApp() {
     )
   }
 
-  // ── Form state ──
   return (
     <div className="app-contact">
-
       <div className="contact-form">
-
         <div className="contact-form-row">
           <div className="form-field">
             <label>Name <span className="form-required">*</span></label>
@@ -135,7 +132,6 @@ function ContactApp() {
           />
         </div>
 
-        {/* Error banner */}
         {status === 'error' && (
           <div className="contact-error">
             ⚠️ Something went wrong. Please try again or email directly at{' '}
@@ -164,7 +160,6 @@ function ContactApp() {
             'Send message →'
           )}
         </button>
-
       </div>
     </div>
   )

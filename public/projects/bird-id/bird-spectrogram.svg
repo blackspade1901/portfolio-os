@@ -1,0 +1,55 @@
+<svg width="1200" height="760" viewBox="0 0 1200 760" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="760" rx="48" fill="#06111f"/>
+  <rect x="48" y="48" width="1104" height="664" rx="36" fill="url(#bg)" stroke="rgba(255,255,255,.14)" stroke-width="2"/>
+  <g opacity=".24">
+    <circle cx="1008" cy="130" r="180" fill="#38bdf8"/>
+    <circle cx="164" cy="650" r="210" fill="#a855f7"/>
+  </g>
+  <g transform="translate(118 130)">
+    <text x="0" y="0" fill="#e0f2fe" font-family="Segoe UI, Arial" font-size="44" font-weight="800">Bird Identification Through Voices</text>
+    <text x="0" y="48" fill="#93c5fd" font-family="Segoe UI, Arial" font-size="22">Mel-spectrogram classifier - Goa + Western Ghats birds</text>
+  </g>
+  <g transform="translate(118 238)">
+    <rect width="964" height="330" rx="26" fill="#020617" stroke="rgba(148,163,184,.35)" stroke-width="2"/>
+    <g opacity=".88">
+      <rect x="42" y="44" width="24" height="218" rx="12" fill="#0ea5e9"/>
+      <rect x="82" y="114" width="24" height="148" rx="12" fill="#38bdf8"/>
+      <rect x="122" y="74" width="24" height="188" rx="12" fill="#22d3ee"/>
+      <rect x="162" y="166" width="24" height="96" rx="12" fill="#818cf8"/>
+      <rect x="202" y="34" width="24" height="228" rx="12" fill="#a855f7"/>
+      <rect x="242" y="92" width="24" height="170" rx="12" fill="#38bdf8"/>
+      <rect x="282" y="132" width="24" height="130" rx="12" fill="#14b8a6"/>
+      <rect x="322" y="58" width="24" height="204" rx="12" fill="#f59e0b"/>
+      <rect x="362" y="182" width="24" height="80" rx="12" fill="#38bdf8"/>
+      <rect x="402" y="76" width="24" height="186" rx="12" fill="#0ea5e9"/>
+      <rect x="442" y="108" width="24" height="154" rx="12" fill="#a855f7"/>
+      <rect x="482" y="54" width="24" height="208" rx="12" fill="#22d3ee"/>
+      <rect x="522" y="146" width="24" height="116" rx="12" fill="#38bdf8"/>
+      <rect x="562" y="96" width="24" height="166" rx="12" fill="#14b8a6"/>
+      <rect x="602" y="38" width="24" height="224" rx="12" fill="#f97316"/>
+      <rect x="642" y="128" width="24" height="134" rx="12" fill="#38bdf8"/>
+      <rect x="682" y="72" width="24" height="190" rx="12" fill="#a855f7"/>
+      <rect x="722" y="156" width="24" height="106" rx="12" fill="#0ea5e9"/>
+      <rect x="762" y="112" width="24" height="150" rx="12" fill="#22d3ee"/>
+      <rect x="802" y="50" width="24" height="212" rx="12" fill="#38bdf8"/>
+      <rect x="842" y="186" width="24" height="76" rx="12" fill="#818cf8"/>
+      <rect x="882" y="88" width="24" height="174" rx="12" fill="#14b8a6"/>
+    </g>
+    <path d="M42 284 C160 192 222 246 326 144 C462 10 518 274 654 112 C768 -22 812 220 922 64" stroke="#e0f2fe" stroke-width="5" stroke-linecap="round" opacity=".82"/>
+  </g>
+  <g transform="translate(118 620)">
+    <rect width="188" height="58" rx="29" fill="rgba(56,189,248,.16)" stroke="rgba(56,189,248,.45)"/>
+    <text x="32" y="38" fill="#bae6fd" font-family="Segoe UI, Arial" font-size="22" font-weight="700">95.28% accuracy</text>
+    <rect x="212" width="218" height="58" rx="29" fill="rgba(168,85,247,.16)" stroke="rgba(168,85,247,.45)"/>
+    <text x="244" y="38" fill="#e9d5ff" font-family="Segoe UI, Arial" font-size="22" font-weight="700">48,650 spectrograms</text>
+    <rect x="454" width="154" height="58" rx="29" fill="rgba(34,197,94,.16)" stroke="rgba(34,197,94,.45)"/>
+    <text x="486" y="38" fill="#bbf7d0" font-family="Segoe UI, Arial" font-size="22" font-weight="700">10 species</text>
+  </g>
+  <defs>
+    <linearGradient id="bg" x1="48" y1="48" x2="1152" y2="712" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0f172a"/>
+      <stop offset=".52" stop-color="#111827"/>
+      <stop offset="1" stop-color="#020617"/>
+    </linearGradient>
+  </defs>
+</svg>
